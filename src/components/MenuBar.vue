@@ -19,15 +19,15 @@
         <v-btn exact :to="{ name: 'add' }" text> Add Tutorial </v-btn>
       </v-toolbar-items>
       <v-menu bottom min-width="200px" rounded offset-y v-if="user != null">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon x-large v-on="on" v-bind="attrs">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon x-large>
             <v-avatar v-if="user != null" color="secondary">
               <span class="accent--text font-weight-bold">{{ initials }}</span>
             </v-avatar>
           </v-btn>
         </template>
         <v-card>
-          <v-list-item-content class="justify-center">
+          <v-card-text>
             <div class="mx-auto text-center">
               <v-avatar color="secondary" class="mt-2 mb-2">
                 <span class="accent--text font-weight-bold">{{
@@ -41,7 +41,7 @@
               <v-divider class="my-3"></v-divider>
               <v-btn depressed rounded text @click="logout()"> Logout </v-btn>
             </div>
-          </v-list-item-content>
+          </v-card-text>
         </v-card>
       </v-menu>
     </v-app-bar>
@@ -67,6 +67,9 @@ export default {
     this.resetMenu();
   },
   computed: {
+    ocImageSrc() {
+      return new URL("../assets/oc-logo-white.png", import.meta.url).href;
+    },
     // _link() {
     //     return "/" + this.selectedRoles.toLowerCase() + "Home/" + this.currentPersonRoleID;
     // }

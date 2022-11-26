@@ -26,16 +26,16 @@ export default {
   },
   methods: {
     async loginWithGoogle() {
-      global.handleCredentialResponse = this.handleCredentialResponse;
-      const client = process.env.VUE_APP_CLIENT_ID;
+      window.handleCredentialResponse = this.handleCredentialResponse;
+      const client = import.meta.env.VUE_APP_CLIENT_ID;
       console.log(client);
-      global.google.accounts.id.initialize({
+      window.google.accounts.id.initialize({
         client_id: client,
         cancel_on_tap_outside: false,
         auto_select: true,
-        callback: global.handleCredentialResponse,
+        callback: window.handleCredentialResponse,
       });
-      global.google.accounts.id.renderButton(
+      window.google.accounts.id.renderButton(
         document.getElementById("parent_id"),
         {
           type: "standard",
