@@ -4,7 +4,7 @@ import AuthServices from "./authServices.js";
 import Router from "../router.js";
 
 var baseurl = "";
-if (process.env.NODE_ENV === "development") {
+if (import.meta.env.APP_ENV === "development") {
   baseurl = "http://localhost/tutorial/";
 } else {
   baseurl = "/tutorial/";
@@ -25,7 +25,7 @@ const apiClient = axios.create({
       let token = user.token;
       let authHeader = "";
       if (token != null && token != "") authHeader = "Bearer " + token;
-      headers.common["Authorization"] = authHeader;
+      headers["Authorization"] = authHeader;
     }
     return JSON.stringify(data);
   },

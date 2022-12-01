@@ -27,7 +27,7 @@ export default {
   methods: {
     async loginWithGoogle() {
       window.handleCredentialResponse = this.handleCredentialResponse;
-      const client = import.meta.env.VUE_APP_CLIENT_ID;
+      const client = import.meta.env.VITE_APP_CLIENT_ID;
       console.log(client);
       window.google.accounts.id.initialize({
         client_id: client,
@@ -46,11 +46,11 @@ export default {
         }
       );
     },
-    handleCredentialResponse(response) {
+    async handleCredentialResponse(response) {
       let token = {
         credential: response.credential,
       };
-      AuthServices.loginUser(token)
+      await AuthServices.loginUser(token)
         .then((response) => {
           this.user = response.data;
           Utils.setStore("user", this.user);

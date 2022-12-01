@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'tutorials' }">
         <v-img
           class="mx-2"
-          src="../assets/oc-logo-white.png"
+          src="/oc-logo-white.png"
           max-height="50"
           max-width="50"
           contain
@@ -67,9 +67,6 @@ export default {
     this.resetMenu();
   },
   computed: {
-    ocImageSrc() {
-      return new URL("../assets/oc-logo-white.png", import.meta.url).href;
-    },
     // _link() {
     //     return "/" + this.selectedRoles.toLowerCase() + "Home/" + this.currentPersonRoleID;
     // }
