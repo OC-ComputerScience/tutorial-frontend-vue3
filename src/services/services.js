@@ -4,7 +4,7 @@ import AuthServices from "./authServices.js";
 import Router from "../router.js";
 
 var baseurl = "";
-if (import.meta.env.APP_ENV === "development") {
+if (import.meta.env.DEV) {
   baseurl = "http://localhost/tutorial/";
 } else {
   baseurl = "/tutorial/";
@@ -39,7 +39,6 @@ const apiClient = axios.create({
         .then((response) => {
           console.log(response);
           Utils.removeItem("user");
-          Router.go();
           Router.push({ name: "login" });
         })
         .catch((error) => {
