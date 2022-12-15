@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "APP_ENV=development vite",
     "build": "APP_ENV=production vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "bundle": "mv .env dist"
   },
   "dependencies": {
     "@mdi/font": "^7.0.96",
