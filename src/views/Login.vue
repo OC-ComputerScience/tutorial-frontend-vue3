@@ -16,5 +16,6 @@ export default {
   components: {
     SocialLogin,
   },
+  mounted() {},
 };
 </script>

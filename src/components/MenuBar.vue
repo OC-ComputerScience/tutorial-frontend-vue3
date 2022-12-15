@@ -5,19 +5,19 @@
         <v-img
           class="mx-2"
           src="/oc-logo-white.png"
-          max-height="50"
-          max-width="50"
+          height="50"
+          width="50"
           contain
         ></v-img>
       </router-link>
       <v-toolbar-title class="title">
-        <div>{{ this.title }}</div>
+        {{ this.title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items v-if="user != null">
-        <v-btn exact :to="{ name: 'tutorials' }" text> List </v-btn>
-        <v-btn exact :to="{ name: 'add' }" text> Add Tutorial </v-btn>
-      </v-toolbar-items>
+      <div v-if="user != null">
+        <v-btn class="mx-2" :to="{ name: 'tutorials' }"> List </v-btn>
+        <v-btn class="mx-2" :to="{ name: 'add' }"> Add Tutorial </v-btn>
+      </div>
       <v-menu bottom min-width="200px" rounded offset-y v-if="user != null">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>
@@ -87,7 +87,6 @@ export default {
           console.log(response);
           Utils.removeItem("user");
           this.$router.push({ name: "login" });
-          this.$router.go();
         })
         .catch((error) => {
           console.log("error", error);

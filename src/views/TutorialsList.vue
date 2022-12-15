@@ -2,46 +2,45 @@
   <div>
     <v-container>
       <v-toolbar>
-        <v-toolbar-title>Hello!</v-toolbar-title>
+        <v-toolbar-title
+          >Hello, {{ user.fName }} {{ user.lName }}!</v-toolbar-title
+        >
         <!-- <v-spacer></v-spacer>
         <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
       <br /><br />
       <v-card>
-        <v-card-title>
-          Tutorials
-          <v-spacer></v-spacer>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-card-title>
+        <v-card-title> Tutorials </v-card-title>
         <v-card-text>
           <b>{{ message }}</b>
         </v-card-text>
-        <v-data-table
-          :headers="headers"
-          :search="search"
-          :items="tutorials"
-          :items-per-page="50"
-        >
-          <template v-slot:[`item.actions`]="{ item }">
-            <div>
-              <v-icon small class="mx-4" @click="editTutorial(item)">
-                mdi-pencil
-              </v-icon>
-              <v-icon small class="mx-4" @click="viewTutorial(item)">
-                mdi-format-list-bulleted-type
-              </v-icon>
-              <v-icon small class="mx-4" @click="deleteTutorial(item)">
-                mdi-trash-can
-              </v-icon>
-            </div>
-          </template>
-        </v-data-table>
+
+        <v-table>
+          <thead>
+            <tr>
+              <th class="text-left">Title</th>
+              <th class="text-left">Description</th>
+              <th class="text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in tutorials" :key="item.title">
+              <td>{{ item.title }}</td>
+              <td>{{ item.description }}</td>
+              <td>
+                <v-icon small class="mx-4" @click="editTutorial(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small class="mx-4" @click="viewTutorial(item)">
+                  mdi-format-list-bulleted-type
+                </v-icon>
+                <v-icon small class="mx-4" @click="deleteTutorial(item)">
+                  mdi-trash-can
+                </v-icon>
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
       </v-card>
     </v-container>
   </div>
@@ -62,11 +61,6 @@ export default {
       title: "",
       user: {},
       message: "Search, Edit or Delete Tutorials",
-      headers: [
-        { text: "Title", value: "title" },
-        { text: "Description", value: "description" },
-        { text: "Actions", value: "actions", sortable: false },
-      ],
     };
   },
   mounted() {

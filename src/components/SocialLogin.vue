@@ -57,7 +57,6 @@ export default {
           this.fName = this.user.fName;
           this.lName = this.user.lName;
           this.$router.push({ name: "tutorials" });
-          this.$router.go();
         })
         .catch((error) => {
           console.log("error", error);
