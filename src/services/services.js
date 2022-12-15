@@ -39,7 +39,6 @@ const apiClient = axios.create({
         .then((response) => {
           console.log(response);
           Utils.removeItem("user");
-          Router.go();
           Router.push({ name: "login" });
         })
         .catch((error) => {
