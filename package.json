@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "APP_ENV=development vite",
     "build": "APP_ENV=production vite build",
-    "preview": "vite preview --port 8081",
+    "preview": "vite preview",
     "bundle": "mv .env dist"
   },
   "dependencies": {
