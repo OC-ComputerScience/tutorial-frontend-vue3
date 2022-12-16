@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'tutorials' }">
         <v-img
           class="mx-2"
-          src="/oc-logo-white.png"
+          :src="logoURL"
           height="50"
           width="50"
           contain
@@ -49,18 +49,25 @@
 </template>
 
 <script>
+import ocLogo from "/oc-logo-white.png";
 import Utils from "../config/utils";
 import AuthServices from "../services/authServices";
 
 export default {
   name: "App",
+  components: {
+    ocLogo,
+  },
   data: () => ({
     user: {},
     title: "Tutorials",
     initials: "",
     name: "",
+    logoURL: "",
   }),
   async created() {
+    console.log(ocLogo);
+    this.logoURL = ocLogo;
     this.resetMenu();
   },
   async mounted() {
