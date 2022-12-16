@@ -1,8 +1,8 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vuetify from "vite-plugin-vuetify";
 
-export default ({ mode }) => {
+export default () => {
   const baseURL =
     process.env.APP_ENV === "development" ? "/" : "/tutorial-frontend-vue3/";
 

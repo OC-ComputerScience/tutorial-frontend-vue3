@@ -11,7 +11,8 @@ import EditLesson from "./views/EditLesson.vue";
 
 const router = createRouter({
   history: createWebHistory(),
-  base: process.env.NODE_ENV === "development" ? "/" : "/",
+  base:
+    process.env.NODE_ENV === "development" ? "/" : "/tutorial-frontend-vue3/",
   routes: [
     {
       path: "/",
