@@ -11,7 +11,7 @@ import EditLesson from "./views/EditLesson.vue";
 
 const router = createRouter({
   history: createWebHistory(),
-  base: "/tutorial-frontend-vue3/",
+  base: import.meta.env.BASE_URL,
   routes: [
     {
       path: "/",
