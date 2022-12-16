@@ -6,16 +6,12 @@
         <!-- <v-spacer></v-spacer>
         <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
-      <br>
+      <br />
       <h4>{{ message }}</h4>
-      <br>
-      <h4>Tutorial: {{tutorialId}}</h4>
-      <br>
-      <v-form 
-        ref="form" 
-        v-model="valid"
-        lazy validation
-      >
+      <br />
+      <h4>Tutorial: {{ tutorialId }}</h4>
+      <br />
+      <v-form ref="form" v-model="valid" lazy validation>
         <v-text-field
           v-model="lesson.title"
           id="title"
@@ -40,23 +36,17 @@
           Save
         </v-btn>
 
-        <v-btn
-          color="error"
-          class="mr-4"
-          @click="cancel()"
-        >
-          Cancel
-        </v-btn>
+        <v-btn color="error" class="mr-4" @click="cancel()"> Cancel </v-btn>
       </v-form>
     </v-container>
-  </div>  
+  </div>
 </template>
 
 <script>
 import LessonServices from "../services/lessonServices";
 export default {
   name: "add-lesson",
-  props: ['tutorialId'],
+  props: ["tutorialId"],
   data() {
     return {
       valid: true,
@@ -64,9 +54,9 @@ export default {
         id: null,
         title: "",
         description: "",
-        published: false
+        published: false,
       },
-      message: "Enter data and click save"
+      message: "Enter data and click save",
     };
   },
   methods: {
@@ -74,25 +64,22 @@ export default {
       var data = {
         title: this.lesson.title,
         description: this.lesson.description,
-        tutorialId : this.tutorialId
+        tutorialId: this.tutorialId,
       };
       LessonServices.createLesson(this.tutorialId, data)
-        .then(response => {
+        .then((response) => {
           this.lesson.id = response.data.id;
-        
-          this.$router.push({ name: 'view' , params: { id: this.tutorialId }} );
+
+          this.$router.push({ name: "view", params: { id: this.tutorialId } });
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
-    cancel(){
-        this.$router.push({ name: 'view' , params: { id: this.tutorialId }} );
-    }
-  }
-}
-
+    cancel() {
+      this.$router.push({ name: "view", params: { id: this.tutorialId } });
+    },
+  },
+};
 </script>
-<style>
-
-</style>
+<style></style>
