@@ -3,7 +3,8 @@ import vue from "@vitejs/plugin-vue";
 import vuetify from "vite-plugin-vuetify";
 
 export default () => {
-  const baseURL = "/tutorial-frontend-vue3/";
+  const baseURL =
+    process.env.APP_ENV === "development" ? "/" : "/tutorial-frontend-vue3/";
 
   return defineConfig({
     plugins: [vue(), vuetify({ autoImport: true })],
