@@ -66,7 +66,6 @@ export default {
     logoURL: "",
   }),
   async created() {
-    console.log(ocLogo);
     this.logoURL = ocLogo;
     this.resetMenu();
   },
