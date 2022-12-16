@@ -10,8 +10,7 @@ import AddLesson from "./views/AddLesson.vue";
 import EditLesson from "./views/EditLesson.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
-  base: import.meta.env.BASE_URL,
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
