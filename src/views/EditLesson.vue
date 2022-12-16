@@ -6,16 +6,12 @@
         <!-- <v-spacer></v-spacer>
         <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
-      <br>
+      <br />
       <h4>{{ message }}</h4>
-      <br>
-      <h4>Tutorial: {{tutorialId}} Lesson: {{lessonId}}</h4>
-      <br>
-      <v-form 
-        ref="form" 
-        v-model="valid"
-        lazy validation
-      >
+      <br />
+      <h4>Tutorial: {{ tutorialId }} Lesson: {{ lessonId }}</h4>
+      <br />
+      <v-form ref="form" v-model="valid" lazy validation>
         <v-text-field
           v-model="lesson.title"
           id="title"
@@ -40,16 +36,10 @@
           Save
         </v-btn>
 
-        <v-btn
-          color="error"
-          class="mr-4"
-          @click="cancel()"
-        >
-          Cancel
-        </v-btn>
+        <v-btn color="error" class="mr-4" @click="cancel()"> Cancel </v-btn>
       </v-form>
     </v-container>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -57,51 +47,53 @@ import LessonServices from "../services/lessonServices";
 
 export default {
   name: "edit-lesson",
-  props: [ 'tutorialId' , 'lessonId' ],
+  props: ["tutorialId", "lessonId"],
   data() {
     return {
       valid: false,
       lesson: {},
-      message: "Enter data and click save"
+      message: "Enter data and click save",
     };
   },
   methods: {
     retrieveLesson() {
       LessonServices.getLesson(this.tutorialId, this.lessonId)
-        .then(response => {
-          this.lesson= response.data;
+        .then((response) => {
+          this.lesson = response.data;
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
-
     },
     saveLesson() {
       var data = {
         title: this.lesson.title,
         description: this.lesson.description,
-        tutorialId : this.lesson.tutorialId
+        tutorialId: this.lesson.tutorialId,
       };
-      LessonServices.updateLesson(this.lesson.tutorialId,this.lesson.id, data)
-        .then(response => {
+      LessonServices.updateLesson(this.lesson.tutorialId, this.lesson.id, data)
+        .then((response) => {
           this.lesson.id = response.data.id;
-        
-         this.$router.push({ name: 'view' , params: { id: this.lesson.tutorialId }} );
+
+          this.$router.push({
+            name: "view",
+            params: { id: this.lesson.tutorialId },
+          });
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
-    cancel(){
-        this.$router.push({ name: 'view' , params: { id: this.lesson.tutorialId }} );
-    }
+    cancel() {
+      this.$router.push({
+        name: "view",
+        params: { id: this.lesson.tutorialId },
+      });
+    },
   },
-    mounted() {
-      this.retrieveLesson();
-  }
-}
-
+  mounted() {
+    this.retrieveLesson();
+  },
+};
 </script>
-<style>
-
-</style>
+<style></style>

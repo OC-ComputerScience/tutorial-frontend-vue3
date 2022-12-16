@@ -6,14 +6,10 @@
         <!-- <v-spacer></v-spacer>
         <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
-      <br>
+      <br />
       <h4>{{ message }}</h4>
-      <br>
-      <v-form 
-        ref="form" 
-        v-model="valid"
-        lazy validation
-      >
+      <br />
+      <v-form ref="form" v-model="valid" lazy validation>
         <v-text-field
           v-model="tutorial.title"
           id="title"
@@ -38,16 +34,10 @@
           Save
         </v-btn>
 
-        <v-btn
-          color="error"
-          class="mr-4"
-          @click="cancel()"
-        >
-          Cancel
-        </v-btn>
+        <v-btn color="error" class="mr-4" @click="cancel()"> Cancel </v-btn>
       </v-form>
     </v-container>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -55,51 +45,46 @@ import TutorialServices from "../services/tutorialServices";
 
 export default {
   name: "edit-tutorial",
-  props: ['id'],
+  props: ["id"],
   data() {
     return {
       valid: false,
       tutorial: {},
-      message: "Enter data and click save"
+      message: "Enter data and click save",
     };
   },
   methods: {
     retrieveTutorial() {
       TutorialServices.get(this.id)
-        .then(response => {
-          this.tutorial= response.data;
+        .then((response) => {
+          this.tutorial = response.data;
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
-
     },
 
     updateTutorial() {
       var data = {
         title: this.tutorial.title,
-        description: this.tutorial.description
-
+        description: this.tutorial.description,
       };
-      TutorialServices.update(this.id,data)
-        .then(response => {
+      TutorialServices.update(this.id, data)
+        .then((response) => {
           this.tutorial.id = response.data.id;
-          this.$router.push({ name: 'tutorials' });
+          this.$router.push({ name: "tutorials" });
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
-    cancel(){
-        this.$router.push({ name: 'tutorials' });
-    }
+    cancel() {
+      this.$router.push({ name: "tutorials" });
+    },
   },
-    mounted() {
+  mounted() {
     this.retrieveTutorial();
-  }
-}
-
+  },
+};
 </script>
-<style>
-
-</style>
+<style></style>
