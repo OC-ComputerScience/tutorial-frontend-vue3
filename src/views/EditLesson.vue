@@ -1,10 +1,69 @@
+<script setup>
+import LessonServices from "../services/lessonServices";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const valid = ref(false);
+const lesson = ref({});
+const message = ref("Enter data and click save");
+
+const props = defineProps({
+  tutorialId: {
+    required: true,
+  },
+  lessonId: {
+    required: true,
+  },
+});
+
+const retrieveLesson = () => {
+  LessonServices.getLesson(props.tutorialId, props.lessonId)
+    .then((response) => {
+      lesson.value = response.data;
+    })
+    .catch((e) => {
+      message.value = e.response.data.message;
+    });
+};
+
+const saveLesson = () => {
+  var data = {
+    title: lesson.value.title,
+    description: lesson.value.description,
+    tutorialId: lesson.value.tutorialId,
+  };
+  LessonServices.updateLesson(lesson.value.tutorialId, lesson.value.id, data)
+    .then((response) => {
+      lesson.value.id = response.data.id;
+
+      router.push({
+        name: "view",
+        params: { id: lesson.value.tutorialId },
+      });
+    })
+    .catch((e) => {
+      message.value = e.response.data.message;
+    });
+};
+
+const cancel = () => {
+  router.push({
+    name: "view",
+    params: { id: lesson.value.tutorialId },
+  });
+};
+
+onMounted(() => {
+  retrieveLesson();
+});
+</script>
+
 <template>
   <div>
     <v-container>
       <v-toolbar>
         <v-toolbar-title>Lesson Edit</v-toolbar-title>
-        <!-- <v-spacer></v-spacer>
-        <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
       <br />
       <h4>{{ message }}</h4>
@@ -26,74 +85,17 @@
           label="Description"
           required
         ></v-text-field>
-
         <v-btn
           :disabled="!valid"
           color="success"
           class="mr-4"
-          @click="saveLesson()"
+          @click="saveLesson"
         >
           Save
         </v-btn>
 
-        <v-btn color="error" class="mr-4" @click="cancel()"> Cancel </v-btn>
+        <v-btn color="error" class="mr-4" @click="cancel"> Cancel </v-btn>
       </v-form>
     </v-container>
   </div>
 </template>
-
-<script>
-import LessonServices from "../services/lessonServices";
-
-export default {
-  name: "edit-lesson",
-  props: ["tutorialId", "lessonId"],
-  data() {
-    return {
-      valid: false,
-      lesson: {},
-      message: "Enter data and click save",
-    };
-  },
-  methods: {
-    retrieveLesson() {
-      LessonServices.getLesson(this.tutorialId, this.lessonId)
-        .then((response) => {
-          this.lesson = response.data;
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-    saveLesson() {
-      var data = {
-        title: this.lesson.title,
-        description: this.lesson.description,
-        tutorialId: this.lesson.tutorialId,
-      };
-      LessonServices.updateLesson(this.lesson.tutorialId, this.lesson.id, data)
-        .then((response) => {
-          this.lesson.id = response.data.id;
-
-          this.$router.push({
-            name: "view",
-            params: { id: this.lesson.tutorialId },
-          });
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-    cancel() {
-      this.$router.push({
-        name: "view",
-        params: { id: this.lesson.tutorialId },
-      });
-    },
-  },
-  mounted() {
-    this.retrieveLesson();
-  },
-};
-</script>
-<style></style>

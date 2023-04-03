@@ -1,3 +1,7 @@
+<script setup>
+import SocialLogin from "../components/SocialLogin.vue";
+</script>
+
 <template>
   <v-container>
     <v-toolbar>
@@ -8,14 +12,3 @@
     <br /><br />
   </v-container>
 </template>
-
-<script>
-import SocialLogin from "../components/SocialLogin.vue";
-export default {
-  name: "login",
-  components: {
-    SocialLogin,
-  },
-  mounted() {},
-};
-</script>

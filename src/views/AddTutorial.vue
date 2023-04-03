@@ -1,10 +1,52 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import TutorialServices from "../services/tutorialServices";
+import Utils from "../config/utils.js";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const valid = ref(false);
+const user = Utils.getStore("user");
+const tutorial = ref({
+  id: null,
+  title: "",
+  description: "",
+  published: false,
+});
+const message = ref("Enter data and click save");
+
+const saveTutorial = () => {
+  const data = {
+    title: tutorial.value.title,
+    description: tutorial.value.description,
+    published: true,
+    userId: user.userId,
+  };
+  TutorialServices.create(data)
+    .then((response) => {
+      tutorial.value.id = response.data.id;
+      console.log("add " + response.data);
+      router.push({ name: "tutorials" });
+    })
+    .catch((e) => {
+      message.value = e.response.data.message;
+    });
+};
+
+const cancel = () => {
+  router.push({ name: "tutorials" });
+};
+
+onMounted(() => {
+  user.value = Utils.getStore("user");
+});
+</script>
+
 <template>
   <div>
     <v-container>
       <v-toolbar>
         <v-toolbar-title>Tutorial Add</v-toolbar-title>
-        <!-- <v-spacer></v-spacer>
-        <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
 
       <br />
@@ -30,61 +72,13 @@
           :disabled="!valid"
           color="success"
           class="mr-4"
-          @click="saveTutorial()"
+          @click="saveTutorial"
         >
           Save
         </v-btn>
 
-        <v-btn color="error" class="mr-4" @click="cancel()"> Cancel </v-btn>
+        <v-btn color="error" class="mr-4" @click="cancel">Cancel</v-btn>
       </v-form>
     </v-container>
   </div>
 </template>
-
-<script>
-import TutorialServices from "../services/tutorialServices";
-import Utils from "../config/utils.js";
-
-export default {
-  name: "add-tutorial",
-  data() {
-    return {
-      valid: false,
-      user: {},
-      tutorial: {
-        id: null,
-        title: "",
-        description: "",
-        published: false,
-      },
-      message: "Enter data and click save",
-    };
-  },
-  mounted() {
-    this.user = Utils.getStore("user");
-  },
-  methods: {
-    saveTutorial() {
-      var data = {
-        title: this.tutorial.title,
-        description: this.tutorial.description,
-        published: true,
-        userId: this.user.userId,
-      };
-      TutorialServices.create(data)
-        .then((response) => {
-          this.tutorial.id = response.data.id;
-          console.log("add " + response.data);
-          this.$router.push({ name: "tutorials" });
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-    cancel() {
-      this.$router.push({ name: "tutorials" });
-    },
-  },
-};
-</script>
-<style></style>
