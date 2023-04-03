@@ -12,19 +12,3 @@ import MenuBar from "./components/MenuBar.vue";
     </v-main>
   </v-app>
 </template>
-
-<script>
-export default {
-  components: {
-    MenuBar,
-  },
-
-  computed: {},
-
-  mounted() {},
-
-  data() {
-    return {};
-  },
-};
-</script>

@@ -1,3 +1,45 @@
+<script setup>
+import TutorialServices from "../services/tutorialServices";
+import Utils from "../config/utils.js";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const tutorials = ref([]);
+const user = Utils.getStore("user");
+const message = ref("Search, Edit or Delete Tutorials");
+
+const editTutorial = (tutorial) => {
+  router.push({ name: "edit", params: { id: tutorial.id } });
+};
+
+const viewTutorial = (tutorial) => {
+  router.push({ name: "view", params: { id: tutorial.id } });
+};
+
+const deleteTutorial = (tutorial) => {
+  TutorialServices.delete(tutorial.id)
+    .then(() => {
+      retrieveTutorials();
+    })
+    .catch((e) => {
+      message.value = e.response.data.message;
+    });
+};
+
+const retrieveTutorials = () => {
+  TutorialServices.getAllForUser(user.userId)
+    .then((response) => {
+      tutorials.value = response.data;
+    })
+    .catch((e) => {
+      message.value = e.response.data.message;
+    });
+};
+
+retrieveTutorials();
+</script>
+
 <template>
   <div>
     <v-container>
@@ -5,8 +47,6 @@
         <v-toolbar-title
           >Hello, {{ user.fName }} {{ user.lName }}!</v-toolbar-title
         >
-        <!-- <v-spacer></v-spacer>
-        <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
       <br /><br />
       <v-card>
@@ -14,7 +54,6 @@
         <v-card-text>
           <b>{{ message }}</b>
         </v-card-text>
-
         <v-table>
           <thead>
             <tr>
@@ -24,7 +63,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in tutorials" :key="item.title">
+            <tr v-for="(item, index) in tutorials" :key="item.title">
               <td>{{ item.title }}</td>
               <td>{{ item.description }}</td>
               <td>
@@ -45,72 +84,3 @@
     </v-container>
   </div>
 </template>
-
-<script>
-import TutorialServices from "../services/tutorialServices";
-import Utils from "../config/utils.js";
-
-export default {
-  name: "tutorials-list",
-  data() {
-    return {
-      search: "",
-      tutorials: [],
-      currentTutorial: null,
-      currentIndex: -1,
-      title: "",
-      user: {},
-      message: "Search, Edit or Delete Tutorials",
-    };
-  },
-  mounted() {
-    this.user = Utils.getStore("user");
-    this.retrieveTutorials();
-  },
-  methods: {
-    editTutorial(tutorial) {
-      this.$router.push({ name: "edit", params: { id: tutorial.id } });
-    },
-    viewTutorial(tutorial) {
-      this.$router.push({ name: "view", params: { id: tutorial.id } });
-    },
-    deleteTutorial(tutorial) {
-      TutorialServices.delete(tutorial.id)
-        .then(() => {
-          this.retrieveTutorials();
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-    retrieveTutorials() {
-      TutorialServices.getAllForUser(this.user.userId)
-        .then((response) => {
-          this.tutorials = response.data;
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-    refreshList() {
-      this.retrieveTutorials();
-      this.currentTutorial = null;
-      this.currentIndex = -1;
-    },
-    setActiveTutorial(tutorial, index) {
-      this.currentTutorial = tutorial;
-      this.currentIndex = tutorial ? index : -1;
-    },
-    removeAllTutorials() {
-      TutorialServices.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-  },
-};
-</script>

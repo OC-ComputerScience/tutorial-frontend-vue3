@@ -1,3 +1,42 @@
+<script setup>
+import ocLogo from "/oc-logo-white.png";
+import { ref, onMounted } from "vue";
+import Utils from "../config/utils";
+import AuthServices from "../services/authServices";
+
+const user = ref(null);
+const title = ref("Tutorials");
+const initials = ref("");
+const name = ref("");
+const logoURL = ref("");
+
+const resetMenu = () => {
+  user.value = null;
+  user.value = Utils.getStore("user");
+  if (user.value) {
+    initials.value = user.value.fName[0] + user.value.lName[0];
+    name.value = user.value.fName + " " + user.value.lName;
+  }
+};
+
+const logout = () => {
+  AuthServices.logoutUser(user.value)
+    .then((response) => {
+      console.log(response);
+      Utils.removeItem("user");
+      $router.push({ name: "login" });
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+};
+
+onMounted(() => {
+  logoURL.value = ocLogo;
+  resetMenu();
+});
+</script>
+
 <template>
   <div>
     <v-app-bar app>
@@ -11,17 +50,17 @@
         ></v-img>
       </router-link>
       <v-toolbar-title class="title">
-        {{ this.title }}
+        {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <div v-if="user != null">
+      <div v-if="user">
         <v-btn class="mx-2" :to="{ name: 'tutorials' }"> List </v-btn>
         <v-btn class="mx-2" :to="{ name: 'add' }"> Add Tutorial </v-btn>
       </div>
-      <v-menu bottom min-width="200px" rounded offset-y v-if="user != null">
+      <v-menu bottom min-width="200px" rounded offset-y v-if="user">
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon x-large>
-            <v-avatar v-if="user != null" color="secondary">
+            <v-avatar v-if="user" color="secondary">
               <span class="accent--text font-weight-bold">{{ initials }}</span>
             </v-avatar>
           </v-btn>
@@ -39,7 +78,7 @@
                 {{ user.email }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn depressed rounded text @click="logout()"> Logout </v-btn>
+              <v-btn depressed rounded text @click="logout"> Logout </v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -47,57 +86,3 @@
     </v-app-bar>
   </div>
 </template>
-
-<script>
-import ocLogo from "/oc-logo-white.png";
-import Utils from "../config/utils";
-import AuthServices from "../services/authServices";
-
-export default {
-  name: "App",
-  components: {
-    ocLogo,
-  },
-  data: () => ({
-    user: {},
-    title: "Tutorials",
-    initials: "",
-    name: "",
-    logoURL: "",
-  }),
-  async created() {
-    this.logoURL = ocLogo;
-    this.resetMenu();
-  },
-  async mounted() {
-    this.resetMenu();
-  },
-  computed: {
-    // _link() {
-    //     return "/" + this.selectedRoles.toLowerCase() + "Home/" + this.currentPersonRoleID;
-    // }
-  },
-  methods: {
-    resetMenu() {
-      this.user = null;
-      // ensures that their name gets set properly from store
-      this.user = Utils.getStore("user");
-      if (this.user != null) {
-        this.initials = this.user.fName[0] + this.user.lName[0];
-        this.name = this.user.fName + " " + this.user.lName;
-      }
-    },
-    logout() {
-      AuthServices.logoutUser(this.user)
-        .then((response) => {
-          console.log(response);
-          Utils.removeItem("user");
-          this.$router.push({ name: "login" });
-        })
-        .catch((error) => {
-          console.log("error", error);
-        });
-    },
-  },
-};
-</script>

@@ -1,10 +1,51 @@
+<script setup>
+import LessonServices from "../services/lessonServices";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const valid = ref(true);
+const lesson = ref({
+  id: null,
+  title: "",
+  description: "",
+  published: false,
+});
+const message = ref("Enter data and click save");
+
+const props = defineProps({
+  tutorialId: {
+    required: true,
+  },
+});
+
+const saveLesson = () => {
+  const data = {
+    title: lesson.value.title,
+    description: lesson.value.description,
+    tutorialId: props.tutorialId,
+  };
+  LessonServices.createLesson(props.tutorialId, data)
+    .then((response) => {
+      lesson.value.id = response.data.id;
+
+      router.push({ name: "view", params: { id: props.tutorialId } });
+    })
+    .catch((e) => {
+      message.value = e.response.data.message;
+    });
+};
+
+const cancel = () => {
+  router.push({ name: "view", params: { id: props.tutorialId } });
+};
+</script>
+
 <template>
   <div>
     <v-container>
       <v-toolbar>
         <v-toolbar-title>Lesson Edit</v-toolbar-title>
-        <!-- <v-spacer></v-spacer>
-        <v-toolbar-title>{{this.message}}</v-toolbar-title> -->
       </v-toolbar>
       <br />
       <h4>{{ message }}</h4>
@@ -31,55 +72,13 @@
           :disabled="!valid"
           color="success"
           class="mr-4"
-          @click="saveLesson()"
+          @click="saveLesson"
         >
           Save
         </v-btn>
 
-        <v-btn color="error" class="mr-4" @click="cancel()"> Cancel </v-btn>
+        <v-btn color="error" class="mr-4" @click="cancel"> Cancel </v-btn>
       </v-form>
     </v-container>
   </div>
 </template>
-
-<script>
-import LessonServices from "../services/lessonServices";
-export default {
-  name: "add-lesson",
-  props: ["tutorialId"],
-  data() {
-    return {
-      valid: true,
-      lesson: {
-        id: null,
-        title: "",
-        description: "",
-        published: false,
-      },
-      message: "Enter data and click save",
-    };
-  },
-  methods: {
-    saveLesson() {
-      var data = {
-        title: this.lesson.title,
-        description: this.lesson.description,
-        tutorialId: this.tutorialId,
-      };
-      LessonServices.createLesson(this.tutorialId, data)
-        .then((response) => {
-          this.lesson.id = response.data.id;
-
-          this.$router.push({ name: "view", params: { id: this.tutorialId } });
-        })
-        .catch((e) => {
-          this.message = e.response.data.message;
-        });
-    },
-    cancel() {
-      this.$router.push({ name: "view", params: { id: this.tutorialId } });
-    },
-  },
-};
-</script>
-<style></style>
