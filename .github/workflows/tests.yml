@@ -18,11 +18,11 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
-          VUE_APP_CLIENT_ID: ${{secrets.VITE_APP_CLIENT_ID}}
-          VUE_APP_API_URL: ${{secrets.VITE_APP_API_URL}}
-          VUE_APP_CLIENT_URL: https://tutorial.eaglesoftwareteam.com
-          VUE_APP_CLIENT_SECRET: ${{secrets.VITE_APP_CLIENT_SECRET}}
-          VUE_APP_REFRESH_TOKEN: ${{secrets.VITE_APP_REFRESH_TOKEN}}
+          VITE_APP_CLIENT_ID: ${{secrets.VITE_APP_CLIENT_ID}}
+          VITE_APP_API_URL: ${{secrets.VITE_APP_API_URL}}
+          VITE_APP_CLIENT_URL: https://tutorial.eaglesoftwareteam.com
+          VITE_APP_CLIENT_SECRET: ${{secrets.VITE_APP_CLIENT_SECRET}}
+          VITE_APP_REFRESH_TOKEN: ${{secrets.VITE_APP_REFRESH_TOKEN}}
         with:
           build: npx cypress info
           config: baseUrl=https://tutorial.eaglesoftwareteam.com/tutorial-frontend-vue3
