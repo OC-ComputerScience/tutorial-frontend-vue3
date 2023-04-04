@@ -16,12 +16,12 @@ jobs:
           node-version: 16.x
 
       - run: |
-        touch .env
-        echo VITE_APP_CLIENT_ID="$VITE_APP_CLIENT_ID" >> .env
-        echo VITE_APP_API_URL="$VITE_APP_API_URL" >> .env
-        echo VITE_APP_CLIENT_URL=https://tutorial.eaglesoftwareteam.com >> .env
-        echo VITE_APP_CLIENT_SECRET="$VITE_APP_CLIENT_SECRET" >> .env
-        echo VITE_APP_REFRESH_TOKEN="$VITE_APP_REFRESH_TOKEN" >> .env
+          touch .env
+          echo VITE_APP_CLIENT_ID="$VITE_APP_CLIENT_ID" >> .env
+          echo VITE_APP_API_URL="$VITE_APP_API_URL" >> .env
+          echo VITE_APP_CLIENT_URL=https://tutorial.eaglesoftwareteam.com >> .env
+          echo VITE_APP_CLIENT_SECRET="$VITE_APP_CLIENT_SECRET" >> .env
+          echo VITE_APP_REFRESH_TOKEN="$VITE_APP_REFRESH_TOKEN" >> .env
 
       - name: Cypress run
         uses: cypress-io/github-action@v5
