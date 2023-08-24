@@ -21,13 +21,17 @@ git clone https://github.com/OC-ComputerScience/tutorial-frontend-vue3.git
 ```
 npm install
 ```
+3. Install cross-env to allow correct use of .env files.
 
-3. Make sure **Apache** is running.
+```
+npm cross-env
+```
+4. Make sure **Apache** is running.
 
    - We recommend using XAMPP to serve this project.
    - In XAMPP, make sure that **Apache** is running.
 
-4. In order to make the Google authentication work, have a project registered with the **Google Developer console**.
+5. In order to make the Google authentication work, have a project registered with the **Google Developer console**.
 
    - https://console.developers.google.com/
    - Enable **Google+ API** and **Google Analytics API**.
@@ -35,7 +39,7 @@ npm install
    - Create an **OAuth client ID**.
    - Save your **Client ID** and **Client Secret** in a safe place.
 
-5. In order to make the **Cypress testing** work, get a **Refresh Token** for your Google application through the **Google Developers OAuth 2.0 Playground**.
+6. In order to make the **Cypress testing** work, get a **Refresh Token** for your Google application through the **Google Developers OAuth 2.0 Playground**.
 
    - https://developers.google.com/oauthplayground/
    - Click the gear button on the right.
@@ -49,7 +53,7 @@ npm install
    - Click **Exchange authorization code for tokens**.
    - Save the generated **Refresh token** in a safe place.
 
-6. Add a local **.env** file and make sure the **client ID** and **client secret** are the values you have registered with Google and that the **refresh token** is the value you generated through the OAuth 2.0 Playground.
+7. Add a local **.env** file and make sure the **client ID** and **client secret** are the values you have registered with Google and that the **refresh token** is the value you generated through the OAuth 2.0 Playground.
 
    - VITE_APP_CLIENT_ID = '**your-google-client-id**'
    - VITE_APP_CLIENT_SECRET = '**your-google-client-secret**'
@@ -57,26 +61,26 @@ npm install
    - VITE_APP_CLIENT_URL = 'http://localhost:8081'
    - VITE_APP_API_URL = 'https://accounts.google.com/gsi/client'
 
-7. Compile and run the project locally.
+8. Compile and run the project locally.
 
 ```
 npm run dev
 ```
 
-8. Test your project.
+9. Test your project.
    - Note that your frontend and backend must be running for testing to be successful.
 
 ```
 npm run test
 ```
 
-9. Test your project and watch the tests run with Cypress.
+10. Test your project and watch the tests run with Cypress.
 
 ```
 npm run test:open
 ```
 
-10. If you are wanting to serve your project for production:
+11. If you are wanting to serve your project for production:
     - You will need to have a **.htaccess** file.
     - It should be in your **public** folder.
     - Visual Studio Code will auto format it to where the file will not be read correctly, so add the following rule to your **settings.json** in Visual Studio Code.
@@ -87,13 +91,13 @@ npm run test:open
 },
 ```
 
-10. (Optional) Compile the project for production.
+12. (Optional) Compile the project for production.
 
 ```
 npm run build
 ```
 
-11. (Optional) Lint and fix the project files.
+13. (Optional) Lint and fix the project files.
 
 ```
 npm run lint
