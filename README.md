@@ -24,7 +24,7 @@ npm install
 3. Install cross-env to allow correct use of .env files.
 
 ```
-npm cross-env
+npm install cross-env
 ```
 4. Make sure **Apache** is running.
 
