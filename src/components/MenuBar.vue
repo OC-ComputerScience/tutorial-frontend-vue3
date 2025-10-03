@@ -3,7 +3,9 @@ import ocLogo from "/oc-logo-white.png";
 import { ref, onMounted } from "vue";
 import Utils from "../config/utils";
 import AuthServices from "../services/authServices";
+import { useRouter, useRoute } from 'vue-router'
 
+const router = useRouter()
 const user = ref(null);
 const title = ref("Tutorials");
 const initials = ref("");
@@ -22,9 +24,9 @@ const resetMenu = () => {
 const logout = () => {
   AuthServices.logoutUser(user.value)
     .then((response) => {
-      console.log(response);
+      
       Utils.removeItem("user");
-      $router.push({ name: "login" });
+      router.push({ name: "login" });
     })
     .catch((error) => {
       console.log("error", error);

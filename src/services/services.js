@@ -12,12 +12,11 @@ if (import.meta.env.DEV) {
 
 const apiClient = axios.create({
   baseURL: baseurl,
+  withCredentials: true,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
-    "Access-Control-Allow-Origin": "*",
-    crossDomain: true,
   },
   transformRequest: (data, headers) => {
     let user = Utils.getStore("user");
