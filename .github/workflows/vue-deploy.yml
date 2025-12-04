@@ -1,6 +1,6 @@
 name: Deploy dev to AWS
 
-#turn off deploy to AWS
+# deploy to AWS
 on:
   pull_request:
     types: [closed]
@@ -15,12 +15,12 @@ jobs:
       VITE_APP_API_URL: ${{secrets.VITE_APP_API_URL}}
       VITE_APP_CLIENT_URL: ${{secrets.VITE_APP_CLIENT_URL}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
         with:
           ref: dev
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 24
       - run: |
           touch .env
           echo VITE_APP_CLIENT_ID="$VITE_APP_CLIENT_ID" >> .env
